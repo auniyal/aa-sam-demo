@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  aa-demo Sample SAM Template for aa-demp, this uses SQS, DynamoDB and AWS lambda
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 20
+Resources:
+  AAFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: AALambdaFunction
+      CodeUri: AAFunction
+      Handler: aa.App::handleRequest
+      Runtime: java11
+      Policies:
+        # Give DynamoDB Full Access to your Lambda Function
+        - AmazonDynamoDBFullAccess
+      MemorySize: 512
+      Environment:
+        Variables:
+          MY_SQS_QUEUE_URL: !Ref AAQueue
+      Events:
+        SqsJobQueue:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt AAQueue.Arn
+            BatchSize: 1
+
+  # sqs queues that the lambdas use
+  AAQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: AAPrimaryQueue
+      VisibilityTimeout: 90
+      MessageRetentionPeriod: 604800
+      ReceiveMessageWaitTimeSeconds: 20
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt [RetryDeleteDeadLetterQueue, Arn]
+        maxReceiveCount: 3
+  RetryDeleteDeadLetterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: AADeadLetterQueue
+      MessageRetentionPeriod: 1209600
+
+  AAQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref AAQueue
+      PolicyDocument:
+        Statement:
+          Effect: Allow
+          Principal: "*"
+          Action: "sqs:*"
+          Resource: "*"
+
+  AADynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: All_COMBINATIONS
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
