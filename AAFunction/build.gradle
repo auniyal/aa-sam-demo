@@ -8,14 +8,14 @@ repositories {
 
 dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
-
     implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     implementation group: 'com.google.guava', name: 'guava', version: '29.0-jre'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
     implementation group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.856'
     implementation group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.1'
-    // https://mvnrepository.com/artifact/com.amazonaws/aws-lambda-java-events
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
     compile group: 'com.amazonaws', name: 'aws-lambda-java-events', version: '3.2.0'
-
     testImplementation 'junit:junit:4.12'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.5.10'
+
 }

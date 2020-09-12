@@ -2,6 +2,7 @@ package aa;
 
 import aa.dao.RequestDao;
 import aa.model.Request;
+import com.amazonaws.services.dynamodbv2.model.PutItemResult;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -12,19 +13,25 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.common.collect.Sets;
 import lombok.SneakyThrows;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.String.format;
-import static java.lang.String.valueOf;
 
 /**
  * Handler for requests to Lambda function.
  */
-public class App implements RequestHandler<SQSEvent, Void> {
+public class App implements RequestHandler<SQSEvent, List<PutItemResult>> {
+
+    public RequestDao requestDao = new RequestDao();
 
     @SneakyThrows
     @Override
-    public Void handleRequest(SQSEvent event, Context context) {
+
+    public List<PutItemResult> handleRequest(SQSEvent event, Context context) {
+        List<PutItemResult> putItemResultList = new ArrayList<>();
+
         LambdaLogger logger = context.getLogger();
-        RequestDao requestDao = new RequestDao();
         ObjectMapper objectMapper = new ObjectMapper();
 
         //Iterate over messages
@@ -42,12 +49,15 @@ public class App implements RequestHandler<SQSEvent, Void> {
             final String responseJson = writer.writeValueAsString(Sets.powerSet(request.getInput()));
 
             //persist combinations in DB
-            requestDao.save(sqsMessageBody, responseJson, msg.getMessageId());
+            putItemResultList.add(requestDao.save(sqsMessageBody,
+                    responseJson, msg.getMessageId()));
+
+
             logger.log(format("Message saved to db:  input[%s]  combinations[%s]", sqsMessageBody, responseJson));
 
         }
-
-        return null;
+        logger.log(format("Total items saved in DB: [%d]", putItemResultList.size()));
+        return putItemResultList;
     }
 
 
