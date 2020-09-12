@@ -76,6 +76,17 @@ Tip: consider sending malformed json message to primary queue
 
 3) How can I test this application
 Go to [SQS dashboard](https://console.aws.amazon.com/sqs/v2/home?region=us-east-1#/queues) and choose AAPrimaryQueue, then go to _Send and receive messages_ section and send message
+OR using aws cli command (example below) 
+`aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/380964018971/AAPrimaryQueue --message-body "{ 
+   \"input\":[ 
+      \"A\",
+      \"B\",
+      \"C\",
+      \"D\"
+   ]
+}
+"
+`
 
 4) What's being written to DB
 As was required in spec, dynamo would have all the combinations of input along with message id. Beside that I have added few more attributes to the item for convenience i.e. dateCreated and input
