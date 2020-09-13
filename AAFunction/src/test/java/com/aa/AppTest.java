@@ -54,7 +54,7 @@ public class AppTest {
         sqsEvent.setRecords(records);
         Context context = new TestContext();
         List<PutItemResult> result = app.handleRequest(sqsEvent, context);
-        assertEquals(result.size(), 1);
+        assertEquals(1,result.size());
     }
 
     @Test(expected = JsonMappingException.class)
@@ -74,8 +74,8 @@ public class AppTest {
         records.add(sqsMessage);
         sqsEvent.setRecords(records);
         Context context = new TestContext();
-        List<PutItemResult> result = app.handleRequest(sqsEvent, context);
-        assertEquals(result.size(), 1);
+        app.handleRequest(sqsEvent, context);
+
     }
 
 
@@ -96,8 +96,8 @@ public class AppTest {
         records.add(sqsMessage);
         sqsEvent.setRecords(records);
         Context context = new TestContext();
-        List<PutItemResult> result = app.handleRequest(sqsEvent, context);
-        assertEquals(result.size(), 1);
+        app.handleRequest(sqsEvent, context);
+
     }
 
 
@@ -111,8 +111,8 @@ public class AppTest {
         records.add(sqsMessage);
         sqsEvent.setRecords(records);
         Context context = new TestContext();
-        List<PutItemResult> result = app.handleRequest(sqsEvent, context);
-        assertEquals(result.size(), 1);
+       app.handleRequest(sqsEvent, context);
+
     }
 
 }
