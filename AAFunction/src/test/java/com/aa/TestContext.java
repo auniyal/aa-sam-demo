@@ -1,4 +1,4 @@
-package aa;
+package com.aa;
 
 import com.amazonaws.services.lambda.runtime.ClientContext;
 import com.amazonaws.services.lambda.runtime.CognitoIdentity;

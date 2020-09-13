@@ -1,4 +1,4 @@
-package aa;
+package com.aa;
 
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import org.slf4j.Logger;
