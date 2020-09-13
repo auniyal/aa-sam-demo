@@ -67,14 +67,14 @@ aws cloudformation delete-stack --stack-name AWS
 ```
 
 ## FAQ
-1) Why are there two queues
+#####1) Why are there two queues
 I have added [Dead Letter Queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) for resilience, its for messages which can’t be processed because of a variety of possible issues. 
 Tip: consider sending malformed json message to primary queue
 
-2) How are combinations computed in lambda
+#####2) How are combinations computed in lambda
 [Guava](https://guava.dev/releases/22.0/api/docs/com/google/common/collect/Sets.html#powerSet-java.util.Set-) is open source and very popular library. For this exercise I choose this over custom algorithm, as it's well tested and is production ready library 
 
-3) How can I test this application
+#####3) How can I test this application
 Go to [SQS dashboard](https://console.aws.amazon.com/sqs/v2/home?region=us-east-1#/queues) and choose AAPrimaryQueue, then go to _Send and receive messages_ section and send message
 OR using aws cli command (example below) 
 `aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/380964018971/AAPrimaryQueue --message-body "{ 
@@ -88,5 +88,5 @@ OR using aws cli command (example below)
 "
 `
 
-4) What's being written to DB
+#####4) What's being written to DB
 As was required in spec, dynamo would have all the combinations of input along with message id. Beside that I have added few more attributes to the item for convenience i.e. dateCreated and input
