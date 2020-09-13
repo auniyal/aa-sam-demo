@@ -16,7 +16,7 @@ Resources:
       Handler: aa.App::handleRequest
       Runtime: java11
       Policies:
-        # Give DynamoDB Full Access to your Lambda Function
+        # Give DynamoDB Full Access to Lambda Function
         - AmazonDynamoDBFullAccess
       MemorySize: 512
       Environment:

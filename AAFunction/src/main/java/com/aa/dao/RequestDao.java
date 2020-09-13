@@ -14,14 +14,15 @@ import java.util.HashMap;
  * DAO layer
  */
 public class RequestDao {
-    final AmazonDynamoDB ddb = AmazonDynamoDBClientBuilder.defaultClient();
-    static final String TABLE_NAME = "All_COMBINATIONS";
+    private final AmazonDynamoDB ddb = AmazonDynamoDBClientBuilder.defaultClient();
+    private static final String TABLE_NAME = "All_COMBINATIONS";
 
     /**
      * Saves  items to DB
-     * @param input: json input by user
+     *
+     * @param input:               json input by user
      * @param allCombinationsJson: all the combination of the user input
-     * @param messageId: message id of the sqs message
+     * @param messageId:           message id of the sqs message
      * @return
      */
     public PutItemResult save(String input, String allCombinationsJson, String messageId) {
