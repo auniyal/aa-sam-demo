@@ -13,7 +13,7 @@ Resources:
     Properties:
       FunctionName: AALambdaFunction
       CodeUri: AAFunction
-      Handler: aa.App::handleRequest
+      Handler: com.aa.App::handleRequest
       Runtime: java11
       Policies:
         # Give DynamoDB Full Access to Lambda Function
