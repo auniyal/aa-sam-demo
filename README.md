@@ -81,6 +81,7 @@ _(3) How can I test this application?_
 
 Go to [SQS dashboard](https://console.aws.amazon.com/sqs/v2/home?region=us-east-1#/queues) and choose AAPrimaryQueue, then go to _Send and receive messages_ section and send message
 OR using aws cli command (example below) 
+
 `aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/380964018971/AAPrimaryQueue --message-body "{ 
    \"input\":[ 
       \"A\",
