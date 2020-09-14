@@ -45,7 +45,15 @@ AWS$ sam build
 The SAM CLI installs dependencies defined in `AAFunction/build.gradle`, creates a deployment package, and saves it in the `.aws-sam/build` folder.
 
 ## Fetch, tail, and filter Lambda function logs
-use cloudwatch to view the logs from Lambda function
+
+Use this CLI command to tail live logs
+
+`NOTE`: This command works for all AWS Lambda functions; not just the ones you deploy using SAM.
+
+```bash
+AWS$ sam logs -n AALambdaFunction  --stack-name sam-app --tail
+```
+Alternatively, use cloudwatch to view the logs 
 https://console.aws.amazon.com/cloudwatch/home?region=us-east-1
 
 ## Unit tests
